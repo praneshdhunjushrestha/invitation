@@ -4,32 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pranesh Weds Shreeja</title>
+
+    <!-- Italianno Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         body {
             background-color: #ffffff;
             margin: 0;
-            overflow: hidden; /* Prevent scrolling on the main page */
+            overflow: hidden;
         }
 
-        /* Responsive Image Container 
-           - Mobile (Default): Mask fades from top to bottom
-           - Desktop (min-width: 768px): Mask fades from left to right
-        */
+        /* Apply Italianno font to the H1 */
+        h1 {
+            font-family: 'Italianno', cursive;
+            font-weight: 400;
+        }
+
+        /* Responsive Image Container */
         .image-container {
             position: relative;
             overflow: hidden;
             background-color: transparent;
-            cursor: none; 
-            
-            /* Mobile Fade: Top (transparent) to Bottom (opaque) */
+            cursor: none;
             -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
             mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
         }
 
         @media (min-width: 768px) {
             .image-container {
-                /* Desktop Fade: Left (transparent) to Right (opaque) */
                 -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%);
                 mask-image: linear-gradient(to right, transparent 0%, black 25%);
             }
@@ -52,7 +57,6 @@
 
         .color-layer {
             z-index: 2;
-            /* The flashlight effect mask */
             -webkit-mask-image: radial-gradient(circle 200px at var(--x, -1000px) var(--y, -1000px), black 30%, transparent 100%);
             mask-image: radial-gradient(circle 200px at var(--x, -1000px) var(--y, -1000px), black 30%, transparent 100%);
             transition: mask-position 0s ease;
@@ -70,7 +74,7 @@
             top: var(--y, -1000px);
             left: var(--x, -1000px);
             mix-blend-mode: difference;
-            opacity: 0; /* Hidden by default, shown on hover */
+            opacity: 0;
             transition: opacity 0.2s;
         }
 
@@ -103,103 +107,4 @@
             left: 50%;
             transform: translateX(-50%);
             color: rgba(255,255,255,0.6);
-            z-index: 20;
-            font-family: sans-serif;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            pointer-events: none;
-            text-align: center;
-        }
-    </style>
-</head>
-<body class="h-screen w-screen flex flex-col md:flex-row">
-
-    <!-- Loading Screen -->
-    <div id="loader">
-        <div class="animate-pulse">Loading Experience...</div>
-    </div>
-
-    <!-- Text Section (White Side) -->
-    <!-- Mobile: Top Half (h-1/2) | Desktop: Left Half (w-1/2) -->
-    <div class="w-full h-2/5 md:h-full md:w-2/5 flex flex-col justify-center px-8 md:px-16 overflow-y-auto">
-        <div class="max-w-lg mx-auto md:mx-0">
-            <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tighter">
-                Pranesh.Shreeja
-            </h1>
-            <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                Come along for the Journey towards forever after.
-            </p>
-            <p class="text-gray-500 text-sm">
-                Hover over the image to reveal the true colors of love.
-            </p>
-        </div>
-    </div>
-
-    <!-- Image Section (Interactive Side) -->
-    <!-- Mobile: Bottom Half (h-1/2) | Desktop: Right Half (w-1/2) -->
-    <div class="image-container w-full h-3/5 md:h-full md:w-3/5" id="container">
-        <!-- Images -->
-        <img src="DSC01262.JPG" 
-             alt="City Street" 
-             class="layer bw-layer"
-             draggable="false">
-             
-        <img src="DSC01262.JPG" 
-             alt="City Street Color" 
-             class="layer color-layer"
-             draggable="false"
-             onload="document.body.classList.add('loaded')">
-
-        <!-- Custom cursor ring -->
-        <div class="cursor-ring"></div>
-
-        <div class="instruction">
-            Reveal Color
-        </div>
-    </div>
-
-    <script>
-        const container = document.getElementById('container');
-        
-        const updateMask = (x, y) => {
-            container.style.setProperty('--x', `${x}px`);
-            container.style.setProperty('--y', `${y}px`);
-        };
-
-        container.addEventListener('mousemove', (e) => {
-            const rect = container.getBoundingClientRect();
-            // Calculate X/Y relative to the image container, not the window
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            updateMask(x, y);
-        });
-
-        container.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const rect = container.getBoundingClientRect();
-            const x = touch.clientX - rect.left;
-            const y = touch.clientY - rect.top;
-
-            updateMask(x, y);
-        }, { passive: false });
-
-        container.addEventListener('touchstart', (e) => {
-            const touch = e.touches[0];
-            const rect = container.getBoundingClientRect();
-            const x = touch.clientX - rect.left;
-            const y = touch.clientY - rect.top;
-            updateMask(x, y);
-        }, { passive: false });
-
-    </script>
-</body>
-</html>
-
-
-
-
-
-
+            z-index
