@@ -107,4 +107,78 @@
             left: 50%;
             transform: translateX(-50%);
             color: rgba(255,255,255,0.6);
-            z-index
+            z-index: 20;
+            font-family: sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            pointer-events: none;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="h-screen w-screen flex flex-col md:flex-row">
+
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="animate-pulse">Loading Experience...</div>
+    </div>
+
+    <!-- Text Section -->
+    <div class="w-full h-2/5 md:h-full md:w-2/5 flex flex-col justify-center px-8 md:px-16 overflow-y-auto">
+        <div class="max-w-lg mx-auto md:mx-0">
+            <h1 class="text-5xl md:text-7xl text-gray-900 mb-6 tracking-tight">
+                Pranesh &amp; Shreeja
+            </h1>
+            <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                Come along for the Journey towards forever after.
+            </p>
+            <p class="text-gray-500 text-sm">
+                Hover over the image to reveal the true colors of love.
+            </p>
+        </div>
+    </div>
+
+    <!-- Image Section -->
+    <div class="image-container w-full h-3/5 md:h-full md:w-3/5" id="container">
+        <img src="DSC01262.JPG" class="layer bw-layer" draggable="false">
+        <img src="DSC01262.JPG" class="layer color-layer" draggable="false"
+             onload="document.body.classList.add('loaded')">
+
+        <div class="cursor-ring"></div>
+
+        <div class="instruction">
+            Reveal Color
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        
+        const updateMask = (x, y) => {
+            container.style.setProperty('--x', `${x}px`);
+            container.style.setProperty('--y', `${y}px`);
+        };
+
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            updateMask(e.clientX - rect.left, e.clientY - rect.top);
+        });
+
+        container.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = container.getBoundingClientRect();
+            updateMask(touch.clientX - rect.left, touch.clientY - rect.top);
+        }, { passive: false });
+
+        container.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            const rect = container.getBoundingClientRect();
+            updateMask(touch.clientX - rect.left, touch.clientY - rect.top);
+        }, { passive: false });
+    </script>
+
+</body>
+</html>
