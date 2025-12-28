@@ -41,6 +41,29 @@
             transition: opacity 0.8s ease-out;
         }
 
+        /* Signature Handwriting Animation */
+        .signature-path {
+            stroke-dasharray: 800;
+            stroke-dashoffset: 800;
+            animation: drawSignature 3.5s cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
+            filter: drop-shadow(0px 0px 1px rgba(212, 175, 55, 0.2));
+        }
+
+        @keyframes drawSignature {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes pulseSignature {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.01); }
+        }
+        .signature-container {
+            animation: pulseSignature 3s ease-in-out infinite;
+            animation-delay: 3.2s;
+        }
+
         .flashlight-container {
             cursor: none;
             position: relative;
@@ -107,8 +130,23 @@
     <!-- Preloader -->
     <div id="loader">
         <div class="flex flex-col items-center">
-            <div class="w-10 h-10 border-2 border-gray-100 border-t-[#d4af37] rounded-full animate-spin mb-4"></div>
-            <p class="text-[9px] uppercase tracking-[0.3em] text-gray-400 font-serif italic">You're Invited...</p>
+            <!-- Signature SVG Loader (P [Heart] S) -->
+            <div class="signature-container mb-8">
+                <svg width="240" height="120" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Letter P (Elegant Serif) -->
+                    <path class="signature-path" d="M45 75V25M45 25C65 25 75 30 75 42C75 55 65 60 45 60" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    
+                    <!-- Elegant Heart Symbol (Replacing &) -->
+                    <path class="signature-path" d="M100 55C100 55 95 48 90 48C84 48 82 53 82 58C82 66 100 78 100 78C100 78 118 66 118 58C118 53 116 48 110 48C105 48 100 55 100 55Z" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="animation-delay: 0.9s;"/>
+                    
+                    <!-- Letter S (Graceful Flow) -->
+                    <path class="signature-path" d="M165 30C155 22 135 25 135 45C135 60 165 65 165 80C165 95 145 100 135 90" stroke="#d4af37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="animation-delay: 1.8s;"/>
+                    
+                    <!-- Swash / Underline -->
+                    <path class="signature-path" d="M35 85C60 82 140 82 175 80" stroke="#d4af37" stroke-width="1" stroke-opacity="0.4" stroke-linecap="round" style="animation-delay: 2.8s;"/>
+                </svg>
+            </div>
+            <p class="text-[10px] uppercase tracking-[0.5em] text-[#d4af37] font-serif font-light">Celebrating Love</p>
         </div>
     </div>
 
@@ -185,10 +223,11 @@
         // 1. Loader Logic
         window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
+            // Give enough time for the full drawing sequence
             setTimeout(() => {
                 loader.style.opacity = '0';
                 setTimeout(() => loader.style.display = 'none', 800);
-            }, 1000);
+            }, 4500);
         });
 
         // 2. Countdown Logic
