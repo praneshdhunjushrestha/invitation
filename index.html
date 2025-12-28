@@ -22,16 +22,83 @@
             background-color: transparent;
             cursor: none; 
             
-            /* Mobile Fade: Top (transparent) to Bottom (opaque) */
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
+            /* Mobile Fade: Top (transparent) to Bottom (opaque) 
+               Using a 'scrim' gradient (multiple stops) creates a non-linear, 
+               organic ease-in effect that feels much smoother than a standard gradient. */
+            -webkit-mask-image: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(0,0,0,0.013) 8.1%, 
+                rgba(0,0,0,0.049) 15.5%, 
+                rgba(0,0,0,0.104) 22.5%, 
+                rgba(0,0,0,0.175) 29%, 
+                rgba(0,0,0,0.259) 35.3%, 
+                rgba(0,0,0,0.352) 41.2%, 
+                rgba(0,0,0,0.45) 47.1%, 
+                rgba(0,0,0,0.55) 52.9%, 
+                rgba(0,0,0,0.648) 58.8%, 
+                rgba(0,0,0,0.741) 64.7%, 
+                rgba(0,0,0,0.825) 71%, 
+                rgba(0,0,0,0.896) 77.5%, 
+                rgba(0,0,0,0.951) 84.5%, 
+                rgba(0,0,0,0.987) 91.9%, 
+                black 100%);
+            mask-image: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(0,0,0,0.013) 8.1%, 
+                rgba(0,0,0,0.049) 15.5%, 
+                rgba(0,0,0,0.104) 22.5%, 
+                rgba(0,0,0,0.175) 29%, 
+                rgba(0,0,0,0.259) 35.3%, 
+                rgba(0,0,0,0.352) 41.2%, 
+                rgba(0,0,0,0.45) 47.1%, 
+                rgba(0,0,0,0.55) 52.9%, 
+                rgba(0,0,0,0.648) 58.8%, 
+                rgba(0,0,0,0.741) 64.7%, 
+                rgba(0,0,0,0.825) 71%, 
+                rgba(0,0,0,0.896) 77.5%, 
+                rgba(0,0,0,0.951) 84.5%, 
+                rgba(0,0,0,0.987) 91.9%, 
+                black 100%);
         }
 
         @media (min-width: 768px) {
             .image-container {
-                /* Desktop Fade: Left (transparent) to Right (opaque) */
-                -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%);
-                mask-image: linear-gradient(to right, transparent 0%, black 25%);
+                /* Desktop Fade: Left (transparent) to Right (opaque) 
+                   Same 'scrim' logic applied horizontally. */
+                -webkit-mask-image: linear-gradient(to right, 
+                    transparent 0%, 
+                    rgba(0,0,0,0.013) 8.1%, 
+                    rgba(0,0,0,0.049) 15.5%, 
+                    rgba(0,0,0,0.104) 22.5%, 
+                    rgba(0,0,0,0.175) 29%, 
+                    rgba(0,0,0,0.259) 35.3%, 
+                    rgba(0,0,0,0.352) 41.2%, 
+                    rgba(0,0,0,0.45) 47.1%, 
+                    rgba(0,0,0,0.55) 52.9%, 
+                    rgba(0,0,0,0.648) 58.8%, 
+                    rgba(0,0,0,0.741) 64.7%, 
+                    rgba(0,0,0,0.825) 71%, 
+                    rgba(0,0,0,0.896) 77.5%, 
+                    rgba(0,0,0,0.951) 84.5%, 
+                    rgba(0,0,0,0.987) 91.9%, 
+                    black 100%);
+                mask-image: linear-gradient(to right, 
+                    transparent 0%, 
+                    rgba(0,0,0,0.013) 8.1%, 
+                    rgba(0,0,0,0.049) 15.5%, 
+                    rgba(0,0,0,0.104) 22.5%, 
+                    rgba(0,0,0,0.175) 29%, 
+                    rgba(0,0,0,0.259) 35.3%, 
+                    rgba(0,0,0,0.352) 41.2%, 
+                    rgba(0,0,0,0.45) 47.1%, 
+                    rgba(0,0,0,0.55) 52.9%, 
+                    rgba(0,0,0,0.648) 58.8%, 
+                    rgba(0,0,0,0.741) 64.7%, 
+                    rgba(0,0,0,0.825) 71%, 
+                    rgba(0,0,0,0.896) 77.5%, 
+                    rgba(0,0,0,0.951) 84.5%, 
+                    rgba(0,0,0,0.987) 91.9%, 
+                    black 100%);
             }
         }
 
@@ -121,7 +188,7 @@
     </div>
 
     <!-- Text Section (White Side) -->
-    <!-- Mobile: Top Half (h-1/2) | Desktop: Left Half (w-1/2) -->
+    <!-- Mobile: Top 40% (h-2/5) | Desktop: Left 40% (w-2/5) -->
     <div class="w-full h-2/5 md:h-full md:w-2/5 flex flex-col justify-center px-8 md:px-16 overflow-y-auto">
         <div class="max-w-lg mx-auto md:mx-0">
             <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tighter">
@@ -131,22 +198,22 @@
                 Come along for the Journey towards forever after.
             </p>
             <p class="text-gray-500 text-sm">
-                Feburary.14.2026
+                February 14, 2026
             </p>
         </div>
     </div>
 
     <!-- Image Section (Interactive Side) -->
-    <!-- Mobile: Bottom Half (h-1/2) | Desktop: Right Half (w-1/2) -->
+    <!-- Mobile: Bottom 60% (h-3/5) | Desktop: Right 60% (w-3/5) -->
     <div class="image-container w-full h-3/5 md:h-full md:w-3/5" id="container">
-        <!-- Images -->
-        <img src="DSC01262.JPG" 
-             alt="City Street" 
+        <!-- Images: Using a placeholder since local file DSC01262.JPG won't load here -->
+        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2994&auto=format&fit=crop" 
+             alt="Wedding Couple" 
              class="layer bw-layer"
              draggable="false">
              
-        <img src="DSC01262.JPG" 
-             alt="City Street Color" 
+        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=2994&auto=format&fit=crop" 
+             alt="Wedding Couple Color" 
              class="layer color-layer"
              draggable="false"
              onload="document.body.classList.add('loaded')">
