@@ -2,198 +2,249 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pranesh Weds Shreeja</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wedding Invitation | Pranesh & Shreeja</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #ffffff;
+        :root {
+            --gold: #d4af37;
+        }
+        html, body {
             margin: 0;
-            overflow: hidden; /* Prevent scrolling on the main page */
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #ffffff;
+            font-family: 'Lato', sans-serif;
+            touch-action: none;
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Cinzel', serif;
+        }
+        .font-cursive {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+        }
+        
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out;
         }
 
-        /* Responsive Image Container 
-           - Mobile (Default): Mask fades from top to bottom
-           - Desktop (min-width: 768px): Mask fades from left to right
-        */
-        .image-container {
+        .flashlight-container {
+            cursor: none;
             position: relative;
-            overflow: hidden;
-            background-color: transparent;
-            cursor: none; 
-            
-            /* Mobile Fade: Top (transparent) to Bottom (opaque) */
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
+            width: 100%;
+            height: 100%;
+            /* Aggressive Mask Transition */
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 15%, black 45%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 15%, black 45%);
         }
 
         @media (min-width: 768px) {
-            .image-container {
-                /* Desktop Fade: Left (transparent) to Right (opaque) */
-                -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%);
-                mask-image: linear-gradient(to right, transparent 0%, black 25%);
+            .flashlight-container {
+                -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 15%, black 45%);
+                mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.1) 15%, black 45%);
             }
         }
 
         .layer {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
             pointer-events: none;
         }
 
-        .bw-layer {
-            filter: grayscale(100%) contrast(1.2);
-            z-index: 1;
-        }
-
         .color-layer {
-            z-index: 2;
-            /* The flashlight effect mask */
-            -webkit-mask-image: radial-gradient(circle 200px at var(--x, -1000px) var(--y, -1000px), black 30%, transparent 100%);
-            mask-image: radial-gradient(circle 200px at var(--x, -1000px) var(--y, -1000px), black 30%, transparent 100%);
-            transition: mask-position 0s ease;
+            z-index: 10;
+            /* Flashlight reveal mask */
+            -webkit-mask-image: radial-gradient(circle 0px at -500px -500px, black 30%, transparent 100%);
+            mask-image: radial-gradient(circle 0px at -500px -500px, black 30%, transparent 100%);
         }
 
         .cursor-ring {
             position: absolute;
-            width: 40px;
-            height: 40px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+            width: 60px;
+            height: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 50%;
-            transform: translate(-50%, -50%);
             pointer-events: none;
-            z-index: 10;
-            top: var(--y, -1000px);
-            left: var(--x, -1000px);
+            z-index: 25;
             mix-blend-mode: difference;
-            opacity: 0; /* Hidden by default, shown on hover */
-            transition: opacity 0.2s;
-        }
-
-        .image-container:hover .cursor-ring,
-        .image-container:active .cursor-ring {
-            opacity: 1;
-        }
-
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: #ffffff;
-            z-index: 50;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-family: monospace;
-            transition: opacity 0.5s ease;
-        }
-
-        .loaded #loader {
+            transform: translate(-50%, -50%) scale(0.5);
             opacity: 0;
-            pointer-events: none;
+            transition: transform 0.2s ease-out, opacity 0.3s ease;
         }
 
-        .instruction {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255,255,255,0.6);
-            z-index: 20;
-            font-family: sans-serif;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            pointer-events: none;
-            text-align: center;
+        .flashlight-container:hover .cursor-ring {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeIn 1s ease-out forwards;
         }
     </style>
 </head>
-<body class="h-screen w-screen flex flex-col md:flex-row">
+<body class="flex flex-col md:flex-row select-none h-screen overflow-hidden">
 
-    <!-- Loading Screen -->
+    <!-- Preloader -->
     <div id="loader">
-        <div class="animate-pulse">You're Invited...</div>
-    </div>
-
-    <!-- Text Section (White Side) -->
-    <!-- Mobile: Top Half (h-1/2) | Desktop: Left Half (w-1/2) -->
-    <div class="w-full h-2/5 md:h-full md:w-2/5 flex flex-col justify-center px-8 md:px-16 overflow-y-auto">
-        <div class="max-w-lg mx-auto md:mx-0">
-            <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tighter">
-                Pranesh Weds Shreeja
-            </h1>
-            <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                Come along for the Journey towards forever after.
-            </p>
-            <p class="text-gray-500 text-sm">
-                Feburary.14.2026
-            </p>
+        <div class="flex flex-col items-center">
+            <div class="w-10 h-10 border-2 border-gray-100 border-t-[#d4af37] rounded-full animate-spin mb-4"></div>
+            <p class="text-[9px] uppercase tracking-[0.3em] text-gray-400 font-serif italic">You're Invited...</p>
         </div>
     </div>
 
-    <!-- Image Section (Interactive Side) -->
-    <!-- Mobile: Bottom Half (h-1/2) | Desktop: Right Half (w-1/2) -->
-    <div class="image-container w-full h-3/5 md:h-full md:w-3/5" id="container">
-        <!-- Images -->
-        <img src="DSC01262.JPG" 
-             alt="City Street" 
-             class="layer bw-layer"
-             draggable="false">
-             
-        <img src="DSC01262.JPG" 
-             alt="City Street Color" 
-             class="layer color-layer"
-             draggable="false"
-             onload="document.body.classList.add('loaded')">
+    <!-- Main Content -->
+    <div class="flex flex-col md:flex-row w-full h-full max-h-screen overflow-hidden">
+        
+        <!-- Information Section -->
+        <div class="w-full h-[35%] md:h-full md:w-[45%] lg:w-[40%] flex flex-col justify-center px-6 md:px-16 lg:px-20 bg-white z-30 md:border-r md:border-gray-50 overflow-hidden relative">
+            <div class="max-w-md mx-auto md:mx-0 py-2 md:py-10 animate-fade-up flex flex-col h-full justify-center">
+                
+                <header class="mb-3 md:mb-14">
+                    <h1 class="flex flex-col">
+                        <span class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-[#d4af37] leading-[0.85] tracking-tighter uppercase">
+                            Pranesh
+                        </span>
+                        <span class="text-base sm:text-2xl md:text-5xl font-cursive text-gray-400 lowercase italic my-1 md:my-6 ml-1 opacity-60">
+                            weds
+                        </span>
+                        <span class="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-[#d4af37] leading-[0.85] tracking-tighter uppercase">
+                            Shreeja
+                        </span>
+                    </h1>
+                </header>
 
-        <!-- Custom cursor ring -->
-        <div class="cursor-ring"></div>
+                <section class="mb-4 md:mb-20">
+                    <div class="space-y-1">
+                        <p class="text-base md:text-3xl font-serif text-gray-800 tracking-wider font-bold">
+                            FEBRUARY 14, 2026
+                        </p>
+                        <p class="text-gray-400 text-[8px] md:text-xs uppercase tracking-[0.4em] font-medium">
+                            KATHMANDU, NEPAL
+                        </p>
+                    </div>
+                </section>
 
-        <div class="instruction">
-            Reveal Color
+                <footer class="pt-4 border-t border-gray-100">
+                    <div id="countdown" class="flex space-x-5 md:space-x-10">
+                        <div class="flex flex-col items-center">
+                            <span id="days" class="text-lg md:text-4xl font-light text-gray-800 tabular-nums">00</span>
+                            <span class="text-[6px] md:text-[10px] font-bold uppercase tracking-widest text-gray-300">DAYS</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span id="hours" class="text-lg md:text-4xl font-light text-gray-800 tabular-nums">00</span>
+                            <span class="text-[6px] md:text-[10px] font-bold uppercase tracking-widest text-gray-300">HOURS</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span id="minutes" class="text-lg md:text-4xl font-light text-gray-800 tabular-nums">00</span>
+                            <span class="text-[6px] md:text-[10px] font-bold uppercase tracking-widest text-gray-300">MINS</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <span id="seconds" class="text-lg md:text-4xl font-light text-gray-800 tabular-nums">00</span>
+                            <span class="text-[6px] md:text-[10px] font-bold uppercase tracking-widest text-gray-300">SECS</span>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+        <!-- Interaction Section -->
+        <div class="w-full h-[65%] md:h-full md:w-[55%] lg:w-[60%] relative bg-white overflow-hidden">
+            <div id="flashlight-container" class="flashlight-container">
+                <img src="DSC01262.JPG" alt="Wedding Grayscale" class="layer grayscale brightness-90 contrast-[1.1]" 
+                     onerror="this.src='https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=2000'">
+                
+                <img id="color-layer" src="DSC01262.JPG" alt="Wedding Color" class="layer color-layer" 
+                     onerror="this.src='https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=2000'">
+                
+                <div id="cursor-ring" class="cursor-ring"></div>
+            </div>
         </div>
     </div>
 
     <script>
-        const container = document.getElementById('container');
-        
-        const updateMask = (x, y) => {
-            container.style.setProperty('--x', `${x}px`);
-            container.style.setProperty('--y', `${y}px`);
-        };
-
-        container.addEventListener('mousemove', (e) => {
-            const rect = container.getBoundingClientRect();
-            // Calculate X/Y relative to the image container, not the window
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            updateMask(x, y);
+        // 1. Loader Logic
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 800);
+            }, 1000);
         });
 
+        // 2. Countdown Logic
+        const targetDate = new Date("Feb 14, 2026 10:00:00").getTime();
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            if (distance < 0) return;
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById('days').innerText = d.toString().padStart(2, '0');
+            document.getElementById('hours').innerText = h.toString().padStart(2, '0');
+            document.getElementById('minutes').innerText = m.toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = s.toString().padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // 3. Flashlight Logic
+        const container = document.getElementById('flashlight-container');
+        const colorLayer = document.getElementById('color-layer');
+        const cursorRing = document.getElementById('cursor-ring');
+
+        function moveFlashlight(e) {
+            const rect = container.getBoundingClientRect();
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            if (clientX === undefined) return;
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+            
+            const isMobile = window.innerWidth < 768;
+            const radius = isMobile ? 120 : 180;
+            const mask = `radial-gradient(circle ${radius}px at ${x}px ${y}px, black 35%, transparent 100%)`;
+            
+            colorLayer.style.webkitMaskImage = mask;
+            colorLayer.style.maskImage = mask;
+            cursorRing.style.left = x + 'px';
+            cursorRing.style.top = y + 'px';
+        }
+
+        container.addEventListener('mousemove', moveFlashlight);
+        container.addEventListener('touchstart', (e) => {
+            cursorRing.style.opacity = '1';
+            cursorRing.style.transform = 'translate(-50%, -50%) scale(1)';
+            moveFlashlight(e);
+        });
         container.addEventListener('touchmove', (e) => {
             e.preventDefault();
-            const touch = e.touches[0];
-            const rect = container.getBoundingClientRect();
-            const x = touch.clientX - rect.left;
-            const y = touch.clientY - rect.top;
-
-            updateMask(x, y);
+            moveFlashlight(e);
         }, { passive: false });
-
-        container.addEventListener('touchstart', (e) => {
-            const touch = e.touches[0];
-            const rect = container.getBoundingClientRect();
-            const x = touch.clientX - rect.left;
-            const y = touch.clientY - rect.top;
-            updateMask(x, y);
-        }, { passive: false });
-
+        container.addEventListener('touchend', () => {
+            cursorRing.style.opacity = '0';
+        });
     </script>
 </body>
 </html>
